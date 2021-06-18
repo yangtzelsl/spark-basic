@@ -2,7 +2,7 @@ package com.yangtzelsl.constant;
 
 /**
  * @Description 常量类
- * @Author Darren.qiu@ambergroup.io
+ * @Author luis.liu
  * @Date 2020/12/23 18:30
  */
 public class ConstantsConfigJava {

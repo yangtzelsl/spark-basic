@@ -14,7 +14,7 @@ import javax.servlet.http.{HttpServletRequest, HttpServletResponse}
  * @Description Streaming 两种优雅的停止策略：
  *              1. 通过http服务
  *                 2. 通过扫描hdfs文件
- * @Author Darren.qiu@ambergroup.io
+ * @Author luis.liu
  * @Date 2020/10/12 10:06
  */
 object GraceCloseUtils {
