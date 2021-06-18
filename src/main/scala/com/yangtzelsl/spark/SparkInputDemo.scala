@@ -32,7 +32,7 @@ object SparkInputDemo {
     val spark = SparkSession
       .builder()
       .master("local[*]")
-      .appName("test app")
+      .appName(this.getClass.getSimpleName)
       .getOrCreate()
 
     // 加载数据
@@ -40,6 +40,7 @@ object SparkInputDemo {
       .read
       // json多行写才不会报错，否则一条json数据只能一行一行写
       .option("multiline", "true")
+      // 加载本地文件
       .json("file:///data.json")
       .toDF()
 
