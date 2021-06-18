@@ -1,0 +1,11 @@
+{
+  "a": 10,
+  "b": "zhangsan",
+  "c": true,
+  "d": 3.14,
+  "e": [
+    "hehe"
+  ],
+  "ts": "2021-05-20",
+  "uuid": "dhihiagudiabuy"
+}
