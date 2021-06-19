@@ -2,6 +2,7 @@ package com.yangtzelsl.spark
 
 import com.yangtzelsl.conf.ConfigurationManagerJava
 import com.yangtzelsl.constant.ConstantsConfigJava
+import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.SparkSession
 
 /**
@@ -43,9 +44,12 @@ object SparkInputDemo {
       .read
       // json多行写才不会报错，否则一条json数据只能一行一行写
       .option("multiline", "true")
-      // 加载本地文件
-      .json(inputFile)
+      // 加载本地文件，使用相对路径，通用写法
+      .json(this.getClass.getResource("/").toString + inputFile)
       .toDF()
+
+    // file:/D:/IDEA2020/spark-basic/target/classes/
+    println(this.getClass.getResource("/").toString)
 
     // transform
     jsonDF.show()
@@ -64,5 +68,42 @@ object SparkInputDemo {
 
     // 关闭资源
     spark.stop()
+  }
+
+  def testJson(spark: SparkSession, inputFile: String): Unit = {
+
+    val sc = spark.sparkContext
+
+    val jsonStrRDD = sc.textFile(inputFile)
+
+    import spark.implicits._
+    val mapRDD: RDD[String] = jsonStrRDD.map(
+      t => t
+        .replaceAll("\"$", "\"")
+        .toLowerCase
+    )
+    // 收集到driver端打印
+    mapRDD.collect().foreach(println)
+
+    val ds = mapRDD.toDS()
+    ds.show()
+    ds.createOrReplaceTempView("t1")
+
+    // 测试数据大小写问题
+    /**
+     * 结论：
+     * 1.查询和数据原本大小写保持一致，即数据是大写，JSON获取用大写
+     * 2.全部转小写，JSON数据获取也用小写(推荐采用该方案)
+     */
+    val ds_upper = spark.sql(
+      """
+        | select
+        | cast(get_json_object(value,"$.properties.kyc_pre_status") as int)	kyc_pre_status,
+        | cast(get_json_object(value,"$.properties.kyc_pre_status1") as int)	kyc_pre_status1,
+        | cast(get_json_object(value,"$.properties.KYC_status") as int)	KYC_status
+        | from t1
+        |""".stripMargin)
+      .toDF()
+      .show()
   }
 }
