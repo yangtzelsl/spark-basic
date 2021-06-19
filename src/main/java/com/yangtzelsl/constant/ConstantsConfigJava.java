@@ -39,5 +39,11 @@ public class ConstantsConfigJava {
      */
     public static final String HIVE_DATABASE_OPT_KEY = "hive_database_opt_key";
     public static final String HIVE_TABLE_OPT_KEY = "hive_table_opt_key";
+    public static final String HIVE_URL_OPT_KEY = "hive_url_opt_key";
+
+    /**
+     * 输入路径配置
+     */
+    public static final String INPUT_FILE = "input_file";
 
 }

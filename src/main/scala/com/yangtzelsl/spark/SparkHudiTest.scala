@@ -93,6 +93,7 @@ object SparkHudiTest {
     import spark.implicits._
     val tableName = "Album"
     upsert(INITIAL_ALBUM_DATA.toDF(), tableName, "albumId", "updateDate", basePath)
+    snapshotQuery(spark, tableName, basePath)
 
 
     //upsert(UPSERT_ALBUM_DATA.toDF(), tableName, "albumId", "updateDate", basePath)
@@ -141,13 +142,13 @@ object SparkHudiTest {
       // 以下参数针对 hive 同步
       // 属性：hoodie.datasource.hive_sync.jdbcurl, 默认值：jdbc:hive2://localhost:10000
       // Hive metastore url
-      .option(DataSourceWriteOptions.HIVE_URL_OPT_KEY, "jdbc:hive2://10.132.58.114:10000")
+      .option(DataSourceWriteOptions.HIVE_URL_OPT_KEY, "jdbc:hive2://x.x.x.x:10000")
       // 属性：hoodie.datasource.hive_sync.enable, 默认值：false
       // 设置为true时，将数据集注册并同步到Apache Hive Metastore
       .option(DataSourceWriteOptions.HIVE_SYNC_ENABLED_OPT_KEY, "true")
       // 属性：hoodie.datasource.hive_sync.database, 默认值：default
       // 要同步到的数据库
-      .option(DataSourceWriteOptions.HIVE_DATABASE_OPT_KEY, "amber_app_dwd")
+      .option(DataSourceWriteOptions.HIVE_DATABASE_OPT_KEY, "your_database")
       // 属性：hoodie.datasource.hive_sync.table, [Required]
       // 要同步到的表
       .option(DataSourceWriteOptions.HIVE_TABLE_OPT_KEY, tableName)

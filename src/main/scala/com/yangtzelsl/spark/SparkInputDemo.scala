@@ -1,6 +1,7 @@
 package com.yangtzelsl.spark
 
 import com.yangtzelsl.conf.ConfigurationManagerJava
+import com.yangtzelsl.constant.ConstantsConfigJava
 import org.apache.spark.sql.SparkSession
 
 /**
@@ -28,6 +29,8 @@ object SparkInputDemo {
     // 获取配置项
     val configuration = ConfigurationManagerJava.getPropConfig(args(0))
 
+    val inputFile = configuration.getString(ConstantsConfigJava.INPUT_FILE)
+
     // 初始化SparkSession
     val spark = SparkSession
       .builder()
@@ -41,7 +44,7 @@ object SparkInputDemo {
       // json多行写才不会报错，否则一条json数据只能一行一行写
       .option("multiline", "true")
       // 加载本地文件
-      .json("file:///data.json")
+      .json(inputFile)
       .toDF()
 
     // transform
