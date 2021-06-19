@@ -12,13 +12,19 @@
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
+
+        <!-- 以下环境版本对应 EMR 6.3.0 -->
         <spark.version>3.1.1</spark.version>
         <scala.version>2.12.10</scala.version>
         <scala.spec.version>2.12</scala.spec.version>
+        <hudi.version>0.8.0</hudi.version>
+        <hive.version>3.1.2</hive.version>
+
         <log4j.version>1.2.17</log4j.version>
         <slf4j.version>1.7.22</slf4j.version>
-        <hive.version>2.3.7</hive.version>
+
         <lombok.version>1.18.10</lombok.version>
+
     </properties>
 
     <!-- 声明并引入子项目共有的依赖 -->
@@ -85,6 +91,13 @@
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-graphx_${scala.spec.version}</artifactId>
             <version>${spark.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.hudi</groupId>
+            <artifactId>hudi-spark-bundle_${scala.spec.version}</artifactId>
+            <version>${hudi.version}</version>
             <scope>provided</scope>
         </dependency>
 
