@@ -94,7 +94,8 @@ object SparkHudiTest {
     val tableName = "Album"
     upsert(INITIAL_ALBUM_DATA.toDF(), tableName, "albumId", "updateDate", basePath)
 
-    upsert(UPSERT_ALBUM_DATA.toDF(), tableName, "albumId", "updateDate", basePath)
+
+    //upsert(UPSERT_ALBUM_DATA.toDF(), tableName, "albumId", "updateDate", basePath)
 
   }
 
@@ -108,7 +109,7 @@ object SparkHudiTest {
    */
   private def upsert(albumDf: DataFrame, tableName: String, key: String, combineKey: String, basePath: String): Unit = {
     albumDf.write
-      .format("hudi")
+      .format("org.apache.hudi")
       // 默认模式，更新并插入
       // 属性：hoodie.datasource.write.operation, 默认值：upsert
       // 是否为写操作进行插入更新、插入或批量插入。使用bulkinsert将新数据加载到表中，之后使用upsert或insert。 批量插入使用基于磁盘的写入路径来扩展以加载大量输入，而无需对其进行缓存。
@@ -170,7 +171,7 @@ object SparkHudiTest {
   /**
    * 清空目录
    */
-  private def clearDirectory(): Unit = {
+  private def clearDirectory(basePath: String): Unit = {
     val directory = new Directory(new File(basePath))
     directory.deleteRecursively()
   }
@@ -181,7 +182,7 @@ object SparkHudiTest {
    * @param spark
    * @param tableName
    */
-  private def snapshotQuery(spark: SparkSession, tableName: String): Unit = {
+  private def snapshotQuery(spark: SparkSession, tableName: String, basePath: String): Unit = {
     spark.read.format("hudi").load(s"$basePath/$tableName/*").show()
   }
 

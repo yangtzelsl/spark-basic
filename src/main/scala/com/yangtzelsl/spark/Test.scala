@@ -11,8 +11,17 @@ import org.apache.spark.sql.SparkSession
  */
 object Test {
   def main(args: Array[String]): Unit = {
-    val session = SparkSession.builder().appName("sql").master("local").getOrCreate()
-    val df = session.read.option("multiline", "true").json("file:///D:\\IDEA2020\\amberdata\\amberSensorsData\\src\\test\\resources\\test.json").toDF()
+    val session = SparkSession
+      .builder()
+      .appName(this.getClass.getSimpleName)
+      .master("local[*]")
+      .getOrCreate()
+
+    val df = session
+      .read
+      .option("multiline", "true")
+      .json("file:///data.json")
+      .toDF()
 
     df.show()
 
