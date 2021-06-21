@@ -24,7 +24,7 @@ case class AlbumInc4(albumId: Long, title: String, tracks: Array[String], Inc: S
 
 /**
  *
- * @Description: com.amber.sensorsdata.spark.SparkHudiTest
+ * @Description: SparkHudiTest
  * @Author luis.liu
  * @Date: 2021/5/30 12:59
  * @Version 1.0
@@ -96,7 +96,7 @@ object SparkHudiTest {
     snapshotQuery(spark, tableName, basePath)
 
 
-    //upsert(UPSERT_ALBUM_DATA.toDF(), tableName, "albumId", "updateDate", basePath)
+    upsert(UPSERT_ALBUM_DATA.toDF(), tableName, "albumId", "updateDate", basePath)
 
   }
 
