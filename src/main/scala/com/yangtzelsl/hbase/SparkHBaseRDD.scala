@@ -14,6 +14,7 @@ import org.apache.spark.sql.SparkSession
 
 /**
   * Created by luis.liu.
+  * Spark写HBase方法2 TableOutputFormat
   */
 
 object SparkHBaseRDD {

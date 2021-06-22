@@ -29,3 +29,10 @@ your_jar.jar  \
 config-test.properties \
 1>/home/hadoop/log/spark/app.log 2>&1 &
 ```
+
+# Spark HBase
+## write
+- 方法一是通过HTable中put方法一条一条插入数据到HBase
+- 方法二是通过TableOutputFormat、saveAsHadoopDataset的API
+- 方法三是通过bulkload将数据写入HFile再完成导入(效率较高)
+

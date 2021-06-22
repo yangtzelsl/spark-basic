@@ -20,7 +20,7 @@
         <hudi.version>0.8.0</hudi.version>
         <hive.version>3.1.2</hive.version>
 
-        <phoenix.version>5.0.0</phoenix.version>
+        <phoenix.version>5.1.0</phoenix.version>
 
         <log4j.version>1.2.17</log4j.version>
         <slf4j.version>1.7.22</slf4j.version>
