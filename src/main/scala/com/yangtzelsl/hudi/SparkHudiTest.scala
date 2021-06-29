@@ -1,4 +1,4 @@
-package com.yangtzelsl.spark
+package com.yangtzelsl.hudi
 
 import com.yangtzelsl.conf.ConfigurationManagerJava
 import com.yangtzelsl.constant.ConstantsConfigJava
@@ -24,7 +24,7 @@ case class AlbumInc4(albumId: Long, title: String, tracks: Array[String], Inc: S
 
 /**
  *
- * @Description: SparkHudiTest
+ * @Description: SparkHudiTest: 离线模式下 写入 hudi 表
  * @Author luis.liu
  * @Date: 2021/5/30 12:59
  * @Version 1.0

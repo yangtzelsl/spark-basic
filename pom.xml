@@ -43,6 +43,11 @@
             <artifactId>spark-streaming_${scala.spec.version}</artifactId>
             <version>${spark.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-streaming-kafka-0-10_${scala.spec.version}</artifactId>
+            <version>${spark.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>org.apache.spark</groupId>
@@ -57,6 +62,7 @@
         </dependency>
 
         <!-- phoenix 相关依赖 -->
+        <!--
         <dependency>
             <groupId>org.apache.phoenix</groupId>
             <artifactId>phoenix-core</artifactId>
@@ -68,6 +74,7 @@
             <artifactId>phoenix-spark</artifactId>
             <version>${phoenix.version}</version>
         </dependency>
+        -->
 
     </dependencies>
 
@@ -89,6 +96,16 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>com.yangtzelsl.hbase.SparkHBaseRDD2</mainClass>
+                        </manifest>
+                    </archive>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                </configuration>
             </plugin>
 
             <plugin>

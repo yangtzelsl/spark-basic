@@ -23,7 +23,7 @@ object SparkHBaseRDD2 {
     val tablename = "SparkHBase"
 
     val hbaseConf = HBaseConfiguration.create()
-    hbaseConf.set("hbase.zookeeper.quorum","localhost")  //设置zooKeeper集群地址，也可以通过将hbase-site.xml导入classpath，但是建议在程序里这样设置
+    hbaseConf.set("hbase.zookeeper.quorum","10.132.58.88")  //设置zooKeeper集群地址，也可以通过将hbase-site.xml导入classpath，但是建议在程序里这样设置
     hbaseConf.set("hbase.zookeeper.property.clientPort", "2181")       //设置zookeeper连接端口，默认2181
     hbaseConf.set(TableInputFormat.INPUT_TABLE, tablename)
 

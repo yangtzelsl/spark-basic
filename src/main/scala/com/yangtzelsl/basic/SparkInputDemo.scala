@@ -1,4 +1,4 @@
-package com.yangtzelsl.spark
+package com.yangtzelsl.basic
 
 import com.yangtzelsl.conf.ConfigurationManagerJava
 import com.yangtzelsl.constant.ConstantsConfigJava

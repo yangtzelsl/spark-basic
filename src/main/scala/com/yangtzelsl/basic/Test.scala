@@ -1,4 +1,4 @@
-package com.yangtzelsl.spark
+package com.yangtzelsl.basic
 
 import org.apache.spark.sql.SparkSession
 
