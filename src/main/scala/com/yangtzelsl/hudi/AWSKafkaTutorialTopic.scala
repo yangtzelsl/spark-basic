@@ -5,16 +5,55 @@ import org.apache.hudi.config.HoodieWriteConfig
 import org.apache.hudi.hive.MultiPartKeysValueExtractor
 import org.apache.kafka.common.serialization.StringDeserializer
 import org.apache.spark.SparkConf
-import org.apache.spark.sql.{SaveMode, SparkSession}
+import org.apache.spark.sql.types.{StructField, StructType}
+import org.apache.spark.sql.{DataFrame, SaveMode, SparkSession}
 import org.apache.spark.streaming.kafka010.ConsumerStrategies.Subscribe
 import org.apache.spark.streaming.kafka010.LocationStrategies.PreferConsistent
 import org.apache.spark.streaming.kafka010._
 import org.apache.spark.streaming.{Seconds, StreamingContext}
 
 /**
- * Spark Streaming 实时消费 Kafka 写入 hudi 表
+ * 测试情景：
+ * 1. kafka -> spark streaming -> hive -> HuDi
+ * 2. Spark SQL DataFrame 实现 HuDi 增量更新
  */
 object AWSKafkaTutorialTopic {
+
+  /**
+   * Set nullable property of column. 设置指定列默认为空属性
+   * @param df source DataFrame
+   * @param cn is the column name to change
+   * @param nullable is the flag to set, such that the column is  either nullable or not
+   */
+  def setNullableStateOfColumn( df: DataFrame, cn: String, nullable: Boolean) : DataFrame = {
+
+    // get schema
+    val schema: StructType = df.schema
+    // modify [[StructField] with name `cn`
+    val newSchema: StructType = StructType(schema.map {
+      case StructField( c, t, _, m) if c.equals(cn) => StructField( c, t, nullable = nullable, m)
+      case y: StructField => y
+    })
+    // apply new schema
+    df.sqlContext.createDataFrame( df.rdd, newSchema )
+  }
+
+  /**
+   * 设置所有列默认为空属性
+   * @param df 源dataframe
+   * @param nullable 为空属性
+   * @return
+   */
+  def setNullableStateForAllColumns( df: DataFrame, nullable: Boolean) : DataFrame = {
+    // get schema
+    val schema: StructType = df.schema
+    // modify [[StructField] with name `cn`
+    val newSchema: StructType = StructType(schema.map {
+      case StructField( c, t, _, m) ⇒ StructField( c, t, nullable = nullable, m)
+    })
+    // apply new schema
+    df.sqlContext.createDataFrame( df.rdd, newSchema )
+  }
 
   def main(args: Array[String]): Unit = {
 
@@ -64,6 +103,12 @@ object AWSKafkaTutorialTopic {
 
       val sql1 = "select word id, '2015-01-01' creation_date, '2015-01-01T13:51:39.340396Z' last_update_time from words"
       val sql2 = "select word id, '2015-01-01' creation_date, '2015-01-01T13:51:39.340396Z' last_update_time, 'A' inc1, 'C' inc2, 'E' inc3 from words"
+      /**
+       * 着重说明：
+       * 在spark数据类型中，
+       *   如果新增的字段是integer等数字类型，默认的nullable=false，此时需要控制其默认属性nullable=false，才能保证HuDi在新增字段时，不报错
+       *   如果新增的字段是string类型，默认的nullable=true，则没有该隐患
+       */
 
       val inputDF = sparkSession.sql(sql2) // 切换此 SQL 测试新增字段
 
