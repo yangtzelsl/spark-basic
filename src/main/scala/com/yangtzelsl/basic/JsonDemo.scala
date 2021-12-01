@@ -3,18 +3,16 @@ package com.yangtzelsl.basic
 import org.apache.spark.sql.SparkSession
 
 /**
- *
- * @Description:
- * @Author luis.liu
- * @Date: 2021/6/18 19:42
- * @Version 1.0
+ * spark dataframe 读取 多行JSON
  */
-object Test {
+object JsonDemo {
+
   def main(args: Array[String]): Unit = {
+
     val session = SparkSession
       .builder()
-      .appName(this.getClass.getSimpleName)
-      .master("local[*]")
+      .appName("sql")
+      .master("local")
       .getOrCreate()
 
     val df = session
@@ -26,5 +24,7 @@ object Test {
     df.show()
 
     session.stop()
+
   }
+
 }
